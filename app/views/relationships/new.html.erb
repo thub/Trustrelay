@@ -1,0 +1,21 @@
+<h1>New relationship</h1>
+
+<%= error_messages_for :relationship %>
+
+<% form_for(@relationship) do |f| %>
+
+
+    <input type="hidden" name="targetId" value="<%=@user.id%>"/>
+
+    <!-- <%= f.hidden_field :target.id,:value=>@user.id%></p> -->
+
+       
+    <p><label for="initiationMessage">Message included in the connection request send to <%= @user.login %>:</label><br/>
+         <%= f.text_area :initiationMessage,:rows=>10,:cols=>84%></p>
+  <p><%= f.submit "Send connection request",:class => "formbutton" %></p>
+<% end %>
+
+<br/>
+ <%= link_to 'Back', request.env['HTTP_REFERER'] %>
+
+

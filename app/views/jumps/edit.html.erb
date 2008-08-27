@@ -1,0 +1,15 @@
+<h1>Editing application</h1>
+
+
+<% form_for :jump, :url => add_application_path do |f| %>
+    <%= f.error_messages %>
+    <label for="application">Application</label><br/>
+    <%= f.text_area :application,:rows=>10, :cols=>84%>
+
+    <p><%= f.submit "Update application",:class => "formbutton" %></p>
+<% end %>
+
+
+<p><%= f.submit "Update",:class => "formbutton" %></p>
+
+<%= link_to 'Back', @jump.item %>

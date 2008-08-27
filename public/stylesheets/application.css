@@ -1,0 +1,93 @@
+/* Global styles */
+/* START:notice */
+#notice {
+border: 2px solid red;
+padding: 1em;
+margin-bottom: 2em;
+background-color: #f0f0f0;
+font: bold smaller sans-serif;
+}
+
+#help{
+border: 0px dotted green;
+padding: 0.3em;
+margin-bottom: 1em;
+background-color: #f0f0f0;
+font:  smaller italic sans-serif;
+}
+/* END:notice */
+/* Styles for main page */
+#banner {
+background: lightgrey;
+padding-top: 10px;
+padding-bottom: 20px;
+border-bottom: 4px solid;
+/* font: small-caps 50px/50px "Times New Roman", serif; */
+font: small-caps 50px/50px serif;
+color: #000080;
+text-align: center;
+}
+#banner img {
+float: left;
+}
+#columns {
+background: white;
+}
+#main {
+margin-left: 12em;
+padding-top: 4ex;
+padding-left: 2em;
+background: white;
+}
+#side {
+float: left;
+padding-top: 1em;
+padding-left: 1em;
+padding-bottom: 1em;
+width: 6em;
+background: white;
+}
+#side a {
+color: black;
+font-size: medium;
+}
+h1 {
+font: 150% sans-serif;
+color: #226;
+border-bottom: 3px dotted #77d;
+}
+
+h2 {
+font: 100% sans-serif;
+color: #226;
+border-bottom: 3px dotted #77d;
+}
+
+
+
+#user-list .user-description{
+color: #244;
+font-weight: bold;
+font-size: larger;
+}
+
+#user-list .list-one-sheet {
+width: 60px;
+height: 70px;
+}
+
+
+#user-list .list-actions {
+font-size: x-small;
+text-align: right;
+padding-left: 1em;
+}
+
+#user-list .list-line-even {
+background: #ffccff;
+}
+
+#user-list .list-line-odd {
+background: #d0d0d0;
+}
+

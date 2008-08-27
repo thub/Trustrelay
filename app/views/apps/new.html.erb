@@ -1,0 +1,18 @@
+<h1>New application</h1>
+
+<% form_for(@app) do |f| %>
+  <%= f.error_messages %>
+    <%=  f.hidden_field :jump_id,:value=>@jump.id %>
+
+     <label for="application">Application</label><br/>
+    <%= f.text_area :description,:rows=>10, :cols=>84%><br/>
+
+    <%= app_desc_help %>
+
+  <p>
+    <%= f.submit "Submit application" ,:class => "formbutton"%>
+  </p>
+<% end %>
+
+<%= link_to 'Back', @jump.item
+%>

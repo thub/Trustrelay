@@ -1,0 +1,44 @@
+<div id="user-list">
+
+
+    <% unless @limited %>
+        <h1>Your account</h1>
+        <br/>
+    <%end%>
+    <table width="400" cellpadding="5" cellspacing="0">
+
+        <tr valign="top">
+            <td>Name</td>
+            <td><%= h @user.name %></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><%= h @user.login %></td>
+        </tr>
+       
+    </table>
+    <br/>
+    
+
+    <% unless @limited %>
+        <%= link_to 'Edit',edit_user_path, :action => 'edit' %>
+        | <%= link_to 'Change password', :action => 'change_password' %>
+        | <%= link_to 'Merge account', :action => 'merge' %>
+        | <%= link_to 'Delete account', destroy1_user_path, :confirm=>"Really ? All your items and connections to other users will be deleted !" %>
+        | <%= link_to 'Show help', toggle_show_help_path(self.current_user) unless self.current_user.show_help%>
+         <%= link_to 'Hide help', toggle_show_help_path(self.current_user)  unless !self.current_user.show_help%>
+         
+
+    <%end%>
+
+    <% if @limited %>
+        | <%= link_to 'Back', request.env['HTTP_REFERER'] %>
+    <%end%>
+
+
+    <br/>
+    <br/>
+    <%= help_help %>
+
+
+</div>

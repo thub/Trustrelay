@@ -1,0 +1,18 @@
+<h1>Editing application</h1>
+
+<% form_for(@app) do |f| %>
+  <%= f.error_messages %>
+
+     <label for="application">Application text</label><br/>
+    <%= f.text_area :description,:rows=>10, :cols=>84%> <br/>
+
+    <%= app_desc_help %>
+    
+
+  <p>
+    <%= f.submit "Update",:class => "formbutton" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', @app %>
+

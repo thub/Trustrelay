@@ -1,0 +1,15 @@
+<h2>Please send us complaints and suggestions</h2>
+
+<% form_for :site, :url => feedback_path do |f| %>
+
+    <p>
+        <label>Message</label><br/>
+        <%= text_area_tag :message,'' ,:rows=>10, :cols=>84%>
+
+    </p>
+    <p>
+        <%= f.submit "Send",:class => "formbutton" %>
+    </p>
+
+<% end %>
+

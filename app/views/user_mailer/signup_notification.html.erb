@@ -1,0 +1,21 @@
+<% if @user.initiator!=nil %>
+    Message from <%= @user.initiator.name%>:
+
+    <%= @user.initiationMessage %>
+
+<%end%>
+
+Your account has been created.
+
+Username: <%= @user.login %>
+Password: <%= @user.password %>
+
+Visit this url to activate your account:
+
+<%= @url %>
+
+
+
+About trustrelay.com : <%= @about %>
+
+

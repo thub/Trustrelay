@@ -1,0 +1,87 @@
+<div id="user-list">
+
+
+    <h2>relay job to:</h2>
+
+
+    <% form_for :item, :url => forward_item_path do |f| %>
+        <table width="100%" cellpadding="5" cellspacing="0">
+
+
+            <% for relationship in @meconnected %>
+
+                <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
+                    <td><%= h relationship.target.name %></td>
+                    <td><%= h relationship.target.login %></td>
+                    <td>
+                        <% if @possible_recipients.include?(relationship.target) %>
+                            <%= check_box_tag("users[]", relationship.target.id) %>
+                            <% if @pending_users.include?(relationship.target) %>
+                                *
+                            <%end%>
+                        <% elsif @jump and @jump.from_user == relationship.target %>
+                            received from
+                        <% elsif @sendt_to.include?(relationship.target) %>
+                            you relayed
+                            <% if @pending_users.include?(relationship.target) %>
+                                *
+                            <%end%>
+                        <% else %>
+                            already received the item from other user
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+
+            <tr>
+                <td></td>
+            </tr>
+
+            <% for relationship in @theyconnected %>
+
+                <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
+                    <td><%= h relationship.owner.name %></td>
+                    <td><%= h relationship.owner.login %></td>
+                    <td>
+                        <% if @possible_recipients.include?(relationship.owner) %>
+                            <%= check_box_tag("users[]", relationship.owner.id) %>
+                            <% if @pending_users.include?(relationship.target)%>
+                                *
+                            <%end%>
+                        <% elsif @sendt_to.include?(relationship.owner) %>
+                            you relayed
+                            <% if @pending_users.include?(relationship.target) %>
+                                *
+                            <%end%>
+
+                        <% else %>
+                            already received the item from other user
+                        <% end %>
+                    </td>
+
+
+                </tr>
+            <% end %>
+
+
+        </table>
+        <%= missing_help %>
+
+        <br/>
+        <b>Comment:</b>
+        <%= text_area_tag "comment",nil,:size=>"84x2"  %>
+        <%= comment_help %>
+            <p class="blocktext">
+                <br/>
+                <%= f.submit "Relay",:class => "formbutton" %>
+            </p>
+
+        <%= link_to 'Back', items_path %>
+
+
+    <% end %>
+
+    <br/>
+    <%= forward_help %>
+
+</div>

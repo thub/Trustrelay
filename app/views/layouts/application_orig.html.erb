@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>users: <%= controller.action_name %></title>
+    <%= stylesheet_link_tag 'application.css' %>
+</head>
+<body id="user">
+
+
+
+
+
+<div id="banner">
+    <%= @page_title || "TrustRelay.com" %>
+</div>
+
+
+
+
+<div id="columns">
+    <div id="side">
+
+        <% if user_logged_in? %>
+            <h3><%= link_to "Your profile", show_user_path%></h3>
+            <h3><%= link_to "Connections", relationships_path, :action=>"index"%></h3>
+            <h3><%= link_to "Jobs", list_items_path %></h3>
+            <br/>
+            <br/>
+
+
+            <i>
+                <%= link_to 'show help', toggle_show_help_path(self.current_user) unless self.current_user.show_help%>
+                <%= link_to 'hide help', toggle_show_help_path(self.current_user)  unless !self.current_user.show_help%>
+            </i>
+
+            <h3><%= link_to 'Logout', logout_url %></h3>
+
+        <% else %>
+
+            <%= link_to 'Login', login_url %>
+        <% end %>
+
+
+        <% if TESTSERVER==true %>
+
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            Testserver only:
+            <%= link_to "list all emails", list_emails_path, :action=>"list_emails"%>
+
+            <% if not user_logged_in? %>
+                <% if TESTSERVER==true %>
+                    <%= link_to 'Signup', signup_test_url %>
+                <%end%>
+            <%end%>
+
+        <%end%>
+
+
+
+
+
+    </div>
+    <div id="main">
+
+        <% if flash[:notice] %><div class="notice"><%= flash[:notice] %></div><% end %>
+        <% if flash[:alert] %><div class="alert"><%= flash[:alert] %></div><% end %>
+
+
+        <%= yield %>
+    </div>
+
+</div>
+</body>
+</html>

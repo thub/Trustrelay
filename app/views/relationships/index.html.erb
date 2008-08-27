@@ -1,0 +1,73 @@
+<div id="user-list">
+
+
+
+    <h1>Your connections</h1>
+
+    <br/>
+    <table align="center" width="100%" cellpadding="5" cellspacing="0">
+
+
+        <% for relationship in @meconnected%>
+
+            <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
+                <td><%=h relationship.target.name%></td>
+                <td><%=h relationship.target.login%></td>
+
+
+
+                <td><%=h relationship.state%></td>
+
+                <td class="list-actions">
+                    <%= link_to 'Unlink',unlink_user_path(:id =>relationship.target.id),:confirm => 'Are you sure?'%>
+
+                    <br/>
+                </td>
+
+
+
+            </tr>
+        <% end %>
+
+        <tr><td></td></tr>
+
+        <% for relationship in @theyconnected%>
+
+            <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
+                <td><%=h relationship.owner.name%></td>
+                <td><%=h relationship.owner.login%></td>
+
+
+                <td><%=h relationship.state%></td>
+
+                <td class="list-actions">
+                    <%= link_to 'Unlink',unlink_user_path(:id =>relationship.owner.id),:confirm => 'Are you sure?'%>
+                  
+                </td>
+
+
+
+            </tr>
+        <% end %>
+
+
+
+    </table>
+
+    <%= status_help %>
+
+
+
+    <br/>
+    <br/>
+
+    <h2>Add connection</h2>
+
+    <% form_for :user, @user, :url => { :controller => User, :action => "add" } do |f| %>
+        Enter email to the person you wish to connect to:  &nbsp;&nbsp; <input type="text" name="login"/>
+        <%= submit_tag 'Add connection',:class => "formbutton" %>
+
+    <% end -%>
+
+
+</div>

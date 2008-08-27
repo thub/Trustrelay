@@ -1,0 +1,12 @@
+<h2>In the test environment emails are not dispatched but end up here</h2>
+
+The application may be running in a cluster configuration meaning you may have to click the list emails link a few times until you hit the server you were taliking to last<br/>
+
+<% ActionMailer::Base.deliveries.reverse.each do |delivery| %>
+    From: <%= delivery.from%> <br/>
+    To: <%= delivery.to%> <br/>
+    Subject: <%= delivery.subject %> <br/>
+    Body: <p><pre><%= delivery.body%> </pre><br/></p>
+
+    <hr/>
+<%end%>

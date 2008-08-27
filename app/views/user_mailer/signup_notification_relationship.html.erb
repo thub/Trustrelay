@@ -1,0 +1,20 @@
+<%=@user.initiator.name%> believes you will find this interesting.
+
+<% if @user.initiator!=nil %>
+Message from <%= @user.initiator.name%> :
+<%= @user.initiationMessage %>
+<%end%>
+
+An account has been created for you.
+
+Username: <%= @user.login %>
+Password: <%= @user.password %> (<%=@user.initiator.name%> has not seen this, but please change it later on anyways)
+
+Visit this url to activate your account:
+
+<%= @url %>
+
+If you are already a member of this network you can merge the account after you click the activation link.
+
+
+About trustrelay.com : <%= @about %>

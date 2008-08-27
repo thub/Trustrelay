@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title><%= controller.action_name %></title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <%= stylesheet_link_tag 'trustrelay.css' %>
+</head>
+<body>
+<div id="outer">
+    <div id="outer2">
+
+        <div id="header">
+            <h1>TrustRelay.com</h1>
+            <h2>hired by trust</h2>
+        </div>
+
+        <div id="menu">
+            <ul>
+                <% if user_logged_in? %>
+
+                    <li><%= link_to "Account", show_user_path%></li>
+                    <li><%= link_to "Connections", relationships_path, :action=>"index"%></li>
+                    <li><%= link_to "Jobs", list_items_path %></li>
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+
+
+                    
+
+                    <li><%= link_to 'Logout', logout_url %></li>
+
+                <% else %>
+
+                    <!--<li><%= link_to 'Login', login_url %></li>-->
+                <% end %>
+
+
+                <% if TESTSERVER==true %>
+
+                    <li><%= link_to "Emails", list_emails_path, :action=>"list_emails"%></li>
+
+                    <% if not user_logged_in? %>
+                        <% if TESTSERVER==true %>
+                            <li><%= link_to 'Signup', signup_test_url %></li>
+                        <%end%>
+                    <%end%>
+
+                <%end%>
+            </ul>
+
+        </div>
+
+        <div id="content">
+
+
+            <% if flash[:notice] %><p class="notice"><%= flash[:notice] %></p><% end %>
+            <% if flash[:alert] %><p class="alert"><%= flash[:alert] %></p><% end %>
+
+
+            <%= yield %>
+        </div>
+        <div id="footer">
+			<p class="alignleft">Copyright &copy; 2008 trustrelay.com</p>
+                <% if user_logged_in? %>
+                    <p class="alignright"><%=  link_to "Feedback", feedback_path %></p>
+                <%end%>
+
+
+		</div>
+        
+    </div>
+</div>
+</body>
+</html>

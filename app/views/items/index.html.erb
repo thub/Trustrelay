@@ -1,0 +1,70 @@
+
+<h1>Jobs</h1>
+
+
+<% if @user.items.size>0 %>
+    <br/>
+    <h2>registered by you:</h2>
+
+    <div id="user-list">
+
+        <table width="100%">
+            <tr>
+                <th>Title</th>
+                <th>Created</th>
+                <th>Last updated</th>
+                <th>State</th>
+            </tr>
+            <% for item in @user.items %>
+                <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
+                    <td><%= h item.title %></td>
+                    <td><%= h item.created_at.to_formatted_s(:long) %></td>
+                    <td><%= h item.updated_at.to_formatted_s(:long) %></td>
+                    <td><%= h item.state %></td>
+                    <td><%= link_to 'Show', item %></td>
+                </tr>
+            <% end %>
+        </table>
+    </div>
+    <br/>
+<% else %>
+
+    You can register your own job openings and relay them to your connections. They in turn can relay on to their connections.<br/>
+    In this way the job opening is exposed to people related to you by trust.<br/>
+
+
+
+<%end%>
+
+
+
+<%= link_to 'Register new job opertunity',  new_item_path %>
+
+
+
+
+<% if @jumps.size>0 %>
+    <br/>
+    <br/>
+
+    <h2>relayed to you:</h2>
+    <div id="user-list">
+        <table width="100%">
+            <tr>
+                <th>Title</th>
+                <th>Passed from</th>
+                <th>Received</th>
+                <th>State</th>
+            </tr>
+            <% for jump in @jumps %>
+                <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
+                    <td><%= h jump.item.title %></td>
+                    <td><%= h jump.from_user.login %></td>
+                    <td><%= h jump.created_at.to_formatted_s(:long) %></td>
+                    <td><%= h jump.item.state %></td>
+                    <td><%= link_to 'Show', jump.item %></td>
+                </tr>
+            <% end %>
+        </table>
+    </div>
+<% end %>

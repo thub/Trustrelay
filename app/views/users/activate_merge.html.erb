@@ -1,0 +1,27 @@
+<h1>Connect to <%= @user.initiator.name %> with your current profile</h1>
+
+Please log in with your current profile
+
+<!--<form action="/users/doMerge" method="post">-->
+ <% form_for @user,:url => { :action => "merge" } do |f| %>
+
+    <p>
+        <b>Email of the profile to keep</b><br />
+        <input type="text" name="login"/>
+    </p>
+
+    <p>
+        <b>Password for that profile</b><br />
+        <input type="text" name="password"/>
+    </p>
+
+    <p>
+    <input type="submit" value="Merge"/>
+  </p>
+
+    <%end%>
+
+
+<!--</form>-->
+
+<%= link_to 'Back', show_user_path %>

@@ -1,0 +1,33 @@
+
+
+
+<% for reply in @replies %>
+    <p><%= h reply.created_at.to_formatted_s(:long) %> <%= self.current_user==reply.from_user ? 'You':reply.from_user.name %> wrote:</p>
+    <p class="preElement"><%= word_wrap reply.msg, 84 %></p>
+
+    <hr/>
+
+ <%end%>
+
+
+<% form_for(@reply) do |f| %>
+  <%= f.error_messages %>
+    <%=  f.hidden_field :item_id,:value=>@item.id %>
+    <%=  f.hidden_field :from_user_id,:value=>@from_user.id %>
+    <%=  f.hidden_field :to_user_id,:value=>@to_user.id %>
+
+
+     <label for="reply"><%= @owner_replies==true ? "Message to #{@to_user.name}" : "Message to #{@owner.name}"%></label><br/>
+    <%= f.text_area :msg,:rows=>5, :cols=>84%><br/>
+
+
+    <%= reply_help(@item.owner) unless @owner_replies==true %>
+
+
+    <p class="blocktext">
+
+    <%= f.submit "Send" ,:class => "formbutton"%>
+  </p>
+<% end %>
+
+<%= link_to 'Back', @item %>
