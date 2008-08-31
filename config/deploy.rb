@@ -11,10 +11,9 @@ set :use_sudo, true
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 
-set :scm, :cvs
-set :repository, "/home/cvs"
-set :scm_module, "net"
-set :revision, :head
+set :scm, :git
+set :repository, "git://trustrelay.com/tr"
+set :branch, "master"
 
 role :app, "trustrelay.com"
 role :web, "trustrelay.com"
