@@ -1,0 +1,13 @@
+finish email responses
+
+validate email
+
+email item movements
+
+show stats
+
+When no connections show info message 'You have no connetions yet'
+
+fix page titles
+
+
