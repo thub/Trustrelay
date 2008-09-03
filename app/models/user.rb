@@ -8,10 +8,13 @@ class User < ActiveRecord::Base
     validates_presence_of     :password_confirmation,      :if => :password_required?
     validates_length_of       :password, :within => 4..40, :if => :password_required?
     validates_confirmation_of :password,                   :if => :password_required?
-    validates_length_of       :login,    :within => 3..100
     validates_uniqueness_of   :login,  :case_sensitive => false
+      validates_format_of :login,
+              :with => /\A([^@\s]+)@((?:[-a-z0-9]+.)+[a-z]{2,})\Z/i  ,
+    :message => "not a valid email address"
     before_save :encrypt_password
 
+    
 
     # user who initiated this user
     belongs_to :initiator,:class_name => "User"

@@ -12,8 +12,8 @@
     <div id="outer2">
 
         <div id="header">
-            <h1>TrustRelay.com</h1>
-            <h2>hired by trust :)</h2>
+            <h1><a href="/">TrustRelay.com</a></h1>
+            <h2>hired by trust</h2>
         </div>
 
         <div id="menu">
@@ -30,9 +30,7 @@
 
                     <li><%= link_to 'Logout', logout_url %></li>
 
-                <% else %>
-
-                    <!--<li><%= link_to 'Login', login_url %></li>-->
+              
                 <% end %>
 
 
@@ -40,11 +38,7 @@
 
                     <li><%= link_to "Emails", list_emails_path, :action=>"list_emails"%></li>
 
-                    <% if not user_logged_in? %>
-                        <% if TESTSERVER==true %>
-                            <li><%= link_to 'Signup', signup_test_url %></li>
-                        <%end%>
-                    <%end%>
+
 
                 <%end%>
             </ul>

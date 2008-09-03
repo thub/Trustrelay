@@ -5,14 +5,25 @@ class RelationshipsController < ApplicationController
 
 
     def new
-        @relationship = Relationship.new
+        @relationship = Relationship.new(params[:relationship])
         @user = User.find_by_login(params[:login])
+
+
+    
     end
 
 
     def create
+
+        unless simple_captcha_valid?
+            flash[:notice] = "Wrong code. Please try again"
+            redirect_to :action=>"new",:relationship => params[:relationship] ,:login => params[:login]
+            return
+
+        end
+
         @relationship = Relationship.new(params[:relationship])
-        @target = User.find(params[:targetId])
+        @target = User.find_by_login(params[:login])
 
         @relationship.owner = self.current_user
         @relationship.target = @target

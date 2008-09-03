@@ -2,8 +2,7 @@
 
 Please log in with your current profile
 
-<!--<form action="/users/doMerge" method="post">-->
- <% form_for @user,:url => { :action => "merge" } do |f| %>
+<% form_for @user,:url => { :action => "merge" } do |f| %>
 
     <p>
         <b>Email of the profile to keep</b><br />
@@ -16,12 +15,11 @@ Please log in with your current profile
     </p>
 
     <p>
-    <input type="submit" value="Merge"/>
-  </p>
+        <input type="submit" value="Merge"/>
+    </p>
 
-    <%end%>
+<%end%>
 
 
-<!--</form>-->
 
 <%= link_to 'Back', show_user_path %>

@@ -1,16 +1,20 @@
 <% form_tag session_path do -%>
-<p><label for="login">Login</label><br/>
-<%= text_field_tag 'login' %></p>
+    <p><label for="login">Login</label><br/>
+        <%= text_field_tag 'login' %></p>
 
-<p><label for="password">Password</label><br/>
-<%= password_field_tag 'password' %></p>
+    <p><label for="password">Password</label><br/>
+        <%= password_field_tag 'password' %></p>
 
-<!-- Uncomment this if you want this functionality -->
-<p><label for="remember_me">Remember me:</label>
-<%= check_box_tag 'remember_me' %></p>
+    <!-- Uncomment this if you want this functionality -->
+    <p><label for="remember_me">Remember me:</label>
+        <%= check_box_tag 'remember_me' %></p>
 
 
-<p><%= submit_tag 'Log in',:class => "formbutton" %></p>
+    <p><%= submit_tag 'Log in',:class => "formbutton" %></p>
 
     <%= link_to 'Forgot password?', forgot_password_url %>
 <% end -%>
+
+<br/>
+
+<%= link_to 'back to frontpage', home_path %>

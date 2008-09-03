@@ -3,6 +3,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :apps
 
+   map.simple_captcha '/simple_captcha/:action', :controller => 'simple_captcha' 
+
     #map.resources :jumps
 
     map.resources :items
@@ -25,8 +27,8 @@ ActionController::Routing::Routes.draw do |map|
     map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate'
 
     map.activate_merge '/activate_merge/:activation_code', :controller => 'users', :action => 'activate_merge'
-    map.signup '/signup', :controller => 'users', :action => 'new'
-    map.signup_test '/signup_test', :controller => 'users', :action => 'new_test'
+    map.signup_relationship '/signup_relationship', :controller => 'users', :action => 'new'
+    map.signup '/signup', :controller => 'users', :action => 'new_signup'
     map.login '/login', :controller => 'sessions', :action => 'new'
     map.logout '/logout', :controller => 'sessions', :action => 'destroy'
     map.chance_password '/user/change_password', :controller => 'users', :action => 'change_password'

@@ -91,7 +91,7 @@ module ItemsHelper
     def missing_help
         return '<div id="help">
                * If you wish to relay this job opening to people not on this list then it is easy accomplish this.<br/>
-                 Click the \'Connections\' link in the left menu and follow instructions.           
+                 Click the \'Connections\' link in the top menu and follow instructions.           
               </div>' unless self.current_user.show_help==false
     end
 

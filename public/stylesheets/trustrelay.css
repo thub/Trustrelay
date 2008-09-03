@@ -276,3 +276,24 @@ float: left;
 float: right;
 }
 
+
+
+.container 
+
+.left-element {
+   float: left;
+   width: 49%;
+   }
+
+.right-element {
+   float: right;
+   width: 49%;
+   text-align: right; /* depends on element width */
+   }
+
+.right-element-vert {
+   float: right;
+   width: 49%;
+   text-align: right; /* depends on element width */
+   }
+

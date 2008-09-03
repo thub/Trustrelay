@@ -106,6 +106,8 @@ class RepliesController < ApplicationController
         @reply = Reply.new(params[:reply])
 
 
+       
+
 
         unless @reply.item.owner == self.current_user
             unless self.current_user.transient_items.include?(@reply.item)

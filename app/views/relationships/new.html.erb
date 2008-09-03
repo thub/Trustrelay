@@ -5,17 +5,28 @@
 <% form_for(@relationship) do |f| %>
 
 
-    <input type="hidden" name="targetId" value="<%=@user.id%>"/>
+    <input type="hidden" name="login" value="<%=@user.login%>"/>
+    <label for="initiationMessage">Message included in the connection request send to <%= @user.login %>:</label>
 
-    <!-- <%= f.hidden_field :target.id,:value=>@user.id%></p> -->
 
-       
-    <p><label for="initiationMessage">Message included in the connection request send to <%= @user.login %>:</label><br/>
-         <%= f.text_area :initiationMessage,:rows=>10,:cols=>84%></p>
-  <p><%= f.submit "Send connection request",:class => "formbutton" %></p>
+    <div class="container">
+        <div class="left-element">
+            <%= f.text_area :initiationMessage,:rows=>10,:cols=>40%>
+
+        </div>
+        <div class="right-element">
+            <%= show_simple_captcha %>
+        </div>
+    </div>
+<div style="clear: both;"></div>
+
+    <p>
+        <%= f.submit "Send connection request",:class => "formbutton" %>
+    </p>
+
 <% end %>
 
 <br/>
- <%= link_to 'Back', request.env['HTTP_REFERER'] %>
+<%= link_to 'Back', relationships_path %>
 
 

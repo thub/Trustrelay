@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     before_filter :find_user, :only => [:suspend, :unsuspend, :destroy, :purge]
     #before_filter :login_required #, :only => [ :index, :show, :edit,:merge ]
     skip_filter :login_required, :only =>
-            [:new_test,:new,:create,:activate,:activate_relationship,:forgot_password,:forgot_password_result,:accept_agreement,:decline_agreement,:reset_password]
+            [:new_signup,:new,:create,:activate,:activate_relationship,:forgot_password,:forgot_password_result,:accept_agreement,:decline_agreement,:reset_password]
 
 
     #skip_filter :agreed, :only =>
@@ -22,13 +22,31 @@ class UsersController < ApplicationController
 
     # render new.rhtml
     def new
+        @user = User.new(params[:user])
+
+
+
+        unless  @user.login =~/\A([^@\s]+)@((?:[-a-z0-9]+.)+[a-z]{2,})\Z/i
+            flash[:notice] = "Not a valid email address: "+@user.login
+            redirect_to relationships_path
+            return
+
+        end
+
     end
 
-    def new_test
-        if TESTSERVER==false and params[:letmein]!="thub"
-            flash[:alert] = "Not available in production"
-            redirect_to("/")
+    def new_signup
+
+        if self.current_user
+            flash[:notice] = "Now where did you find this link? You are currently logged on and cannot signup again"
+            redirect_to show_user_path
+            return
+
+
         end
+
+        @user = User.new(params[:user])
+        session[:last_action] = nil
     end
 
 
@@ -42,11 +60,70 @@ class UsersController < ApplicationController
         #reset_session
 
 
-
+        #        @u = User.find_by_login(params[:login])
+        #
+        #
+        #
+        #
+        #        if @u != nil
+        #            flash[:notice] = "Email address already registered with this network. Use the forgot password link to retrieve your account"
+        #            #redirect_to :back
+        #            if self.current_user
+        #                # return to add relationship
+        #                #redirect_to signup_relationship_path
+        #                format.html { render :action => "new" }
+        #
+        #
+        #            else
+        #                # return to signup page
+        #
+        #                #redirect_to signup_path
+        #                     format.html { render :action => "new_signup" }
+        #
+        #            end
+        #            return
+        #        end
 
 
         logger.info("before new")
         @user = User.new(params[:user])
+
+        unless  @user.login =~/\A([^@\s]+)@((?:[-a-z0-9]+.)+[a-z]{2,})\Z/i
+            flash[:notice] = "Not a valid email address: "+@user.login
+            redirect_to :action=>"new_signup", :user => params[:user]
+            return
+
+        end
+
+        @u2 = User.find_by_login(@user.login)
+        if  @u2
+            flash[:notice] = "You have already signed up. User the 'forgot password' link to retrieve your password"
+            redirect_to :action=>"new_signup", :user => params[:user]
+            return
+
+        end
+
+
+        # if email is not right here we are handeling a new signup
+
+
+        unless simple_captcha_valid?
+            flash[:notice] = "Wrong code. Please try again"
+            if self.current_user
+                # return to add relationship
+                redirect_to :action => "new" ,:user => params[:user]
+
+
+            else
+                # return to signup page
+                redirect_to :action => "new_signup" ,:user => params[:user]
+
+            end
+
+            return
+
+        end
+
 
         logger.info("after new")
         # setting password here
@@ -57,14 +134,14 @@ class UsersController < ApplicationController
 
         owner = self.current_user
         #only allowing top level nodes hubertz@online.no or if this is a test server
-        if owner==nil
-            if @user.login!="hubertz@online.no" and TESTSERVER==false
-                flash[:notice] = "You are not allowed to create toplevel node"
-                redirect_back_or_default("/")
-                return
-            end
-
-        end
+        #        if owner==nil
+        #            if @user.login!="hubertz@online.no" and TESTSERVER==false
+        #                flash[:notice] = "You are not allowed to create toplevel node"
+        #                redirect_back_or_default("/")
+        #                return
+        #            end
+        #
+        #        end
 
         logger.info("before register")
         @user.register! if @user.valid?
@@ -107,7 +184,7 @@ class UsersController < ApplicationController
             else
                 self.current_user = nil
                 UserMailer.deliver_signup_notification(@user)
-                flash[:notice] = "Thanks for expanding this network ! Activation code has been sent to "+@user.login
+                flash[:notice] = "Thanks for joining this network ! Activation code has been sent to "+@user.login
             end
 
         else
@@ -253,7 +330,7 @@ class UsersController < ApplicationController
         if request.post?
             if @user = User.find_by_login(params[:user][:login])
 
-                if (@user.activated_at==nil and @user.login != 'hubertz@online.no')
+                if (@user.activated_at==nil)
                     flash[:alert] = "You must activate your account first.A new activation email has been sendt to you"
                     UserMailer.deliver_signup_notification_relationship(@user)
 
@@ -519,10 +596,14 @@ class UsersController < ApplicationController
 
 
     def add
-        @user = User.find_by_login(params[:login])
+        @user = User.find_by_login(params[:user][:login])
 
         if @user and self.current_user.connectedUsers.include?(@user)
-            flash[:notice] = "Your already have a connection to #{params[:login]}"
+            flash[:notice] = "Your already have a connection to #{params[:user][:login]}"
+            redirect_to relationships_path
+            return
+        elsif @user == self.current_user
+            flash[:notice] = "Connecting with your self is outside the scope of this application"
             redirect_to relationships_path
             return
         elsif @user
@@ -530,9 +611,10 @@ class UsersController < ApplicationController
             redirect_to :controller => "relationships", :action => "new", :login => @user.login
             return
 
+
         else
-            logger.info("Not got user with email "+params[:login])
-            redirect_to :action=>"new", :login=>params[:login]
+            logger.info("Not got user with email "+params[:user][:login])
+            redirect_to :action=>"new", :user=>params[:user] #:login=>params[:login]
             return
 
         end
@@ -635,6 +717,5 @@ class UsersController < ApplicationController
         end
         r
     end
-
 
 end

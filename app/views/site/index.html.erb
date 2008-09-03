@@ -13,7 +13,7 @@
        - employers prefer candidates related by trust to their current workforce
     </p>
     <h3>How do I join ?</h3>
-     <p>Get invited. Membership is only available by invitation from someone already in the network.</p>
+     <p>Get invited by someone already in the network or sign up to start your own network</p>
 </div>
 
 <div id="column2">
@@ -32,7 +32,9 @@
 
     <p><%= submit_tag 'Log in',:class => "formbutton" %></p>
 
-        <%= link_to 'Forgot password?', forgot_password_url %>
+     <p>   <%= link_to 'Forgot password?', forgot_password_url %> </p>
+
+     <p>   Not a member ? <%= link_to 'Signup', signup_url %> </p>
     <% end -%>
 
 

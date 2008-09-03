@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080803174542) do
+ActiveRecord::Schema.define(:version => 20080901163810) do
 
   create_table "apps", :force => true do |t|
     t.integer  "jump_id",     :limit => 11
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20080803174542) do
     t.integer  "from_user_id", :limit => 11,                    :null => false
     t.integer  "to_user_id",   :limit => 11,                    :null => false
     t.integer  "jump_count",   :limit => 11
+    t.text     "application"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "interest",                   :default => false
@@ -70,6 +71,13 @@ ActiveRecord::Schema.define(:version => 20080803174542) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
+  create_table "simple_captcha_data", :force => true do |t|
+    t.string   "key",        :limit => 40
+    t.string   "value",      :limit => 6
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "login"
     t.string   "crypted_password",          :limit => 40
@@ -84,7 +92,6 @@ ActiveRecord::Schema.define(:version => 20080803174542) do
     t.datetime "deleted_at"
     t.string   "password_reset_code",       :limit => 40
     t.boolean  "is_admin",                                :default => false
-    t.text     "description"
     t.string   "name",                                                           :null => false
     t.integer  "initiator_id",              :limit => 11
     t.text     "initiationMessage"

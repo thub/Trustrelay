@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
     helper :all # include all helpers, all the time
 
     include AuthenticatedSystem
+    include SimpleCaptcha::ControllerHelpers  
 
 
      def access_denied
