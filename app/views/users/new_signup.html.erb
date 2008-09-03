@@ -1,0 +1,33 @@
+<%= error_messages_for :user %>
+<% form_for :user, :url => users_path do |f| -%>
+
+    <div class="container">
+        <div class="left-element">
+
+            <p>
+                <label for="login">Email</label><br/>
+                <%= f.text_field :login %>
+            </p>
+
+
+            <p><label for="name">Your first Name</label><br/>
+                <%= f.text_field :name %></p>
+
+        </div>
+        <div align="right-element">
+               <%= show_simple_captcha %>  
+        </div>
+
+    </div>
+    <%= name_help %>
+
+
+    <p><%= submit_tag 'Sign up',:class => "formbutton" %></p>
+
+
+    <br/>
+
+    <%= link_to 'back to frontpage', home_path %>
+    
+    
+<% end -%>
