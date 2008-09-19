@@ -133,15 +133,6 @@ class UsersController < ApplicationController
 
 
         owner = self.current_user
-        #only allowing top level nodes hubertz@online.no or if this is a test server
-        #        if owner==nil
-        #            if @user.login!="hubertz@online.no" and TESTSERVER==false
-        #                flash[:notice] = "You are not allowed to create toplevel node"
-        #                redirect_back_or_default("/")
-        #                return
-        #            end
-        #
-        #        end
 
         logger.info("before register")
         @user.register! if @user.valid?

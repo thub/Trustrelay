@@ -84,7 +84,7 @@ module ItemsHelper
 
     def create_help
         return '<div id="help">
-               * After the job oppertunity is registered you will be able to relay it to your connections
+               * After the job opportunity is registered you will be able to relay it to your connections
               </div>' unless self.current_user.show_help==false
     end
 
@@ -104,7 +104,7 @@ module ItemsHelper
     def link_help
         return '<div id="help">
                * Click \'Reply\' to compose a message to the job initiator<br/>
-                Click \'Relay\' to relay this job oppertunity to one of your connections
+                Click \'Relay\' to relay this job opportunity to one of your connections
               </div>' unless self.current_user.show_help==false
     end
 

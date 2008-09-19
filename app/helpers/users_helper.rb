@@ -50,7 +50,7 @@ module UsersHelper
         return '
         <div id="help">
             <p>
-                *In case you signal interest in a job oppertunity this information may be relayed to the job initiator.<br/>
+                *In case you signal interest in a job opportunity this information may be relayed to the job initiator.<br/>
                 The job initiator will contact you for further details so you do not have to include everything here
             </p>
         </div>' unless self.current_user==nil or self.current_user.show_help==false
@@ -62,7 +62,7 @@ module UsersHelper
         return '
         <div id="help">
             <p>
-                *In case an user signals interest in a job oppertunity this information may be relayed to the job initiator.<br/>
+                *In case an user signals interest in a job opportunity this information may be relayed to the job initiator.<br/>
                 The job initiator will contact you for further details so you do not have to include everything here
             </p>
         </div>' unless self.current_user==nil or self.current_user.show_help==false
