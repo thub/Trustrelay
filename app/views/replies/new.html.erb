@@ -17,11 +17,11 @@
     <%=  f.hidden_field :to_user_id,:value=>@to_user.id %>
 
 
-     <label for="reply"><%= @owner_replies==true ? "Message to #{@to_user.name}" : "Message to #{@owner.name}"%></label><br/>
+     <label for="reply">Message to <%=@to_user.name%></label><br/>
     <%= f.text_area :msg,:rows=>5, :cols=>84%><br/>
 
 
-    <%= reply_help(@item.owner) unless @owner_replies==true %>
+    <%= if @to_user==@item.owner then reply_help(@item.owner) end %>
 
 
     <p class="blocktext">

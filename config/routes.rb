@@ -1,11 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :replies
+    map.resources :replies
 
-  map.resources :apps
+    map.resources :apps
 
-   map.simple_captcha '/simple_captcha/:action', :controller => 'simple_captcha' 
-
-    #map.resources :jumps
+    map.simple_captcha '/simple_captcha/:action', :controller => 'simple_captcha'
 
     map.resources :items
     map.resources :relationships
@@ -14,7 +12,6 @@ ActionController::Routing::Routes.draw do |map|
     map.list_emails '/emails', :controller => 'site', :action => 'list_emails'
     map.show_email '/email', :controller => 'site', :action => 'show_email'
 
-    #map.resources :users
     map.resource :session
 
 
@@ -40,8 +37,6 @@ ActionController::Routing::Routes.draw do |map|
 
     map.add_application '/add_application', :controller => 'jumps', :action => 'add_application'
 
-        
-    #  map.unlink_user '/users/unlink/:id', :controller => 'users', :action => 'unlink', :method => "post"
     map.unlink_user '/unlink/:id', :controller => 'users', :action => 'unlink', :method => "post"
     map.merge_user '/merge', :controller => 'users', :action => 'merge'
     map.welcome_user '/welcome', :controller => 'users', :action => 'welcome'
@@ -49,7 +44,7 @@ ActionController::Routing::Routes.draw do |map|
     map.edit_user '/user/edit', :controller => 'users', :action => 'edit'
     map.update_user '/user/update', :controller => 'users', :action => 'update'
     map.destroy1_user '/user/destroy1', :controller=>'users', :action => 'destroy1'
-        
+
     map.toggle_show_help'/users/:id/toggle', :controller=>'users', :action => 'toggle_show_help'
     map.show_user '/user', :controller => 'users', :action => 'show'
     map.accept_agreement '/user/accept', :controller => 'users', :action => 'accept_agreement'
@@ -57,16 +52,10 @@ ActionController::Routing::Routes.draw do |map|
 
 
     map.new_app '/jumps/:jump_id/applications/new', :controller => 'apps', :action => 'new'
-    #map.edit_app '/jumps/:jump_id/applications/:id/edit', :controller => 'apps', :action => 'edit'
 
-
-    map.new_reply '/item/:item_id/replies/new', :controller => 'replies', :action => 'new'
-    map.new_reply_owner '/item/:item_id/user/:user_id/new', :controller => 'replies', :action => 'new'
-    #map.create_reply '/jumps/:jump_id/replies/create', :controller => 'replies', :action => 'create'
-
-    #map.list_replies_for_owner '/item/:item_id/user/:user_id/replies/list', :controller => 'replies', :action => 'list_for_owner'
-    #map.list_replies_for_user '/item/:item_id/replies', :controller => 'replies', :action => 'list_for_user'
-
+    map.new_reply '/item/:item_id/to/:to_id/replies/new', :controller => 'replies', :action => 'new'
+#    map.new_reply_owner '/item/:item_id/user/:user_id/new', :controller => 'replies', :action => 'new'
+#    map.new_reply_to '/item/:item_id/to/:to_id/new', :controller => 'replies', :action => 'new'
     map.activate_relationship '/activate_relationship/:activation_code', :controller => 'relationships', :action => 'activate'
 
     map.new_item '/item/new', :controller=>'items', :action => 'new'

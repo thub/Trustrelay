@@ -10,7 +10,7 @@ class AppsController < ApplicationController
         unless @app.jump.item.owner == self.current_user
             unless @app.jump.to_user == self.current_user
                 logger.info("hack attemt ") # todo, log IP
-                flash[:notice] = 'You do not have access to this application'
+                flash[:alert] = 'You do not have access to this application'
                 redirect_to("/")
                 return
             end
@@ -37,7 +37,7 @@ class AppsController < ApplicationController
          unless @app.jump.item.owner == self.current_user
             unless @app.jump.to_user == self.current_user
                 logger.info("hack attemt ") # todo, log IP
-                flash[:notice] = 'You do not have access to this application'
+                flash[:alert] = 'You do not have access to this application'
                 redirect_to("/")
                 return
             end
@@ -61,7 +61,7 @@ class AppsController < ApplicationController
          unless @app.jump.item.owner == self.current_user
             unless @app.jump.to_user == self.current_user
                 logger.info("hack attemt ") # todo, log IP
-                flash[:notice] = 'You do not have access to this application'
+                flash[:alert] = 'You do not have access to this application'
                 redirect_to("/")
                 return
             end
@@ -80,7 +80,7 @@ class AppsController < ApplicationController
         @app = App.find(params[:id])
             unless @app.jump.to_user == self.current_user
                 logger.info("hack attemt ") # todo, log IP
-                flash[:notice] = 'You do not have access to this application'
+                flash[:alert] = 'You do not have access to this application'
                 redirect_to("/")
                 return
          end

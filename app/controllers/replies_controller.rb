@@ -12,7 +12,7 @@ class RepliesController < ApplicationController
 
         unless @item.owner == self.current_user
             logger.info("hack attemt ") # todo, log IP
-            flash[:notice] = 'You do not have access to this reply'
+            flash[:alert] = 'You do not have access to this reply'
             redirect_to("/")
             return
         end
@@ -36,7 +36,7 @@ class RepliesController < ApplicationController
 
         unless @item.owner == self.current_user
             logger.info("hack attemt ") # todo, log IP
-            flash[:notice] = 'You do not have access to this reply'
+            flash[:alert] = 'You do not have access to this reply'
             redirect_to("/")
             return
         end
@@ -55,46 +55,64 @@ class RepliesController < ApplicationController
         @reply = Reply.new
         @item = Item.find(params[:item_id])
         @user = self.current_user
-
         @owner = @item.owner
 
 
         unless @owner == self.current_user
             unless self.current_user.transient_items.include?(@item)
                 logger.info("hack attemt ") # todo, log IP
-                flash[:notice] = 'You do not have access to this reply'
+                flash[:alert] = 'You do not have access to this reply'
                 redirect_to("/")
                 return
             end
         end
 
+        @to_user
+        @from_user
 
         if @owner == @user
-            @owner_replies = true
-            # look for userId of the user to send message to
-            @to_user = User.find(params[:user_id])
+            @to_user = User.find(params[:to_id])
             @from_user = @user
 
-            @replies = Reply.find(:all,:conditions=>['item_id = ? and (to_user_id = ? or from_user_id = ?) and (to_user_id = ? or from_user_id = ?) ',
-                    @item.id,
-                    @user.id,
-                    @user.id,
-                    @to_user.id,
-                    @to_user.id],:order=>"created_at ")
 
+        elsif params[:to_id]
+
+
+            @to_user = User.find(params[:to_id])
+            @from_user = @user
+
+            unless are_connected @to_user,@from_user
+                flash[:alert] = 'You are not connected to this user'
+                redirect_to("/")
+                return
+            end
 
         else
+
+            @show_help == true
             @to_user = @item.owner
             @from_user = @user
 
-            @replies = Reply.find(:all,:conditions=>['item_id = ? and (to_user_id = ? or from_user_id = ?)',
-                    @item.id,
-                    @user.id,
-                    @user.id],:order=>"created_at ")
         end
 
 
+        @replies = Reply.find(:all,:conditions=>['item_id = ? and (to_user_id = ? or from_user_id = ?) and (to_user_id = ? or from_user_id = ?) ',
+                @item.id,
+                @user.id,
+                @user.id,
+                @to_user.id,
+                @to_user.id],:order=>"created_at ")
 
+
+    end
+
+
+    def are_connected(from_user,to_user)
+        Relationship.find(:all,:conditions=>['(owner_id = ? or target_id = ?) and (owner_id = ? or target_id = ?) ',
+                from_user,
+                from_user,
+                to_user,
+                to_user])
 
     end
 
@@ -106,42 +124,29 @@ class RepliesController < ApplicationController
         @reply = Reply.new(params[:reply])
 
 
-       
+
 
 
         unless @reply.item.owner == self.current_user
             unless self.current_user.transient_items.include?(@reply.item)
                 logger.info("hack attemt ") # todo, log IP
-                flash[:notice] = 'You do not have access to this reply'
+                flash[:alert] = 'You do not have access to this reply'
                 redirect_to("/")
                 return
             end
         end
 
-
-        # who do we send reply notification to ?
-
-
-
-
         if @reply.save
 
             to =  nil
 
-            if @reply.item.owner == self.current_user
-                UserMailer.deliver_reply_notification_from_owner(@reply)
-                to = @reply.to_user
-                redirect_to new_reply_owner_path(@reply.item,@reply.to_user)
-
-            else
-                UserMailer.deliver_reply_notification_from_user(@reply)
-                to  = @reply.item.owner
-                redirect_to new_reply_path(@reply.item)
-
-            end
+            UserMailer.deliver_reply_notification(@reply)
+                           to  = @reply.item.owner
+                           redirect_to new_reply_path(@reply.item,@reply.to_user)
 
 
-            flash[:notice] = 'Reply was registered. Notification email was sent to '+to.name
+
+            flash[:notice] = 'Reply was registered. Notification email was sent to '+@reply.to_user.name
 
 
 

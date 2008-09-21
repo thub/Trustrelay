@@ -26,6 +26,9 @@
                             <% if @pending_users.include?(relationship.target) %>
                                 *
                             <%end%>
+
+                            &nbsp; <%= link_to "add comment", new_reply_path(@item, relationship.target) %>
+
                         <% else %>
                             already received the item from other user
                         <% end %>

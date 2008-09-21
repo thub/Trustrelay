@@ -10,9 +10,7 @@ class UserMailer < ActionMailer::Base
 
     def signup_notification_relationship(user)
         unless user.initiator==nil
-            #setup_email(user,user.initiator.name+' invites you to another network')
             recipients  "#{user.login}"
-            #from        %"#{user.initiator.login}"
             from        %{"Do not reply" <bounce@yourdomain.com>}
             subject     "[#{SITE}] #{user.initiator.name+' invites you to TrustRelay.com'}"
             sent_on     Time.now
@@ -25,7 +23,6 @@ class UserMailer < ActionMailer::Base
 
     def item_notification(jump,subj='A new job has been relayed to you')
         recipients  "#{jump.to_user.login}"
-        #from        %"#{jump.from_user.login}"
         from        %{"Do not reply" <bounce@yourdomain.com>}
         subject     "[#{SITE}] #{subj}"
         sent_on     Time.now
@@ -48,37 +45,38 @@ class UserMailer < ActionMailer::Base
     def app_notification(jump,subj='New application for '+jump.item.title)
         recipients  "#{jump.item.owner.login}"
         from        %{"Do not reply" <bounce@trustrelay.com>}
-        #from        %{"Do not reply" <bounce@trustrelay.com>}
         subject     "[#{SITE}] #{subj}"
         sent_on     Time.now
         body        :jump => jump
-
         @body[:url]  = "#{SITE}/apps/#{jump.app.id}"
     end
 
-    def reply_notification_from_owner(reply,subj='More information regarding job opening '+reply.item.title)
-        recipients  "#{reply.to_user.login}"
-        from        %{"Do not reply" <bounce@trustrelay.com>}
-        #from        %{"Do not reply" <bounce@trustrelay.com>}
-        subject     "[#{SITE}] #{subj}"
-        sent_on     Time.now
-        body        :reply => reply
-        @body[:url]  = "#{SITE}#{new_reply_path(reply.item)}"
+#    def reply_notification_from_owner(reply,subj='More information regarding job opening '+reply.item.title)
+#        recipients  "#{reply.to_user.login}"
+#        from        %{"Do not reply" <bounce@trustrelay.com>}
+#        subject     "[#{SITE}] #{subj}"
+#        sent_on     Time.now
+#        body        :reply => reply
+#        @body[:url]  = "#{SITE}#{new_reply_path(reply.item)}"
+#    end
+#
+#    def reply_notification_from_user(reply,subj='New request for information about job opening '+reply.item.title)
+#        recipients  "#{reply.item.owner.login}"
+#        from        %{"Do not reply" <bounce@trustrelay.com>}
+#        subject     "[#{SITE}] #{subj}"
+#        sent_on     Time.now
+#        body        :reply => reply
+#
+#        @body[:url]  = "#{SITE}#{new_reply_owner_path(reply.item,reply.from_user)}"
+#    end
 
-
-        #@body[:url]  = "#{SITE}/replies/#{reply.item.id}"
-    end
-
-    def reply_notification_from_user(reply,subj='New request for information about job opening '+reply.item.title)
+      def reply_notification(reply,subj='Message regarding job opening '+reply.item.title)
         recipients  "#{reply.item.owner.login}"
         from        %{"Do not reply" <bounce@trustrelay.com>}
-        #from        %{"Do not reply" <bounce@trustrelay.com>}
         subject     "[#{SITE}] #{subj}"
         sent_on     Time.now
         body        :reply => reply
-
-        @body[:url]  = "#{SITE}#{new_reply_owner_path(reply.item,reply.from_user)}"
-        #@body[:url]  = "#{SITE}/replies/#{replies.id}"
+        @body[:url]  = "#{SITE}#{new_reply_path(reply.item,reply.from_user)}"
     end
 
 
@@ -90,7 +88,6 @@ class UserMailer < ActionMailer::Base
         subject     "[#{SITE}] #{subj}"
         sent_on     Time.now
         body        :relationship => relationship
-
         @body[:url]  = "#{SITE}/activate_relationship/#{relationship.activation_code}"
     end
 

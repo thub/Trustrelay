@@ -37,9 +37,9 @@ class SessionsController < ApplicationController
 
                 @u = User.find_by_login(params[:login])
                 if(@u!=nil and @u.activated_at == nil)
-                    flash[:notice] = "You must activate your account before logging in. Click 'Forgot password' to receive a new activation email"
+                    flash[:alert] = "You must activate your account before logging in. Click 'Forgot password' to receive a new activation email"
                 else
-                    flash[:notice] = "Incorrect username or password"
+                    flash[:alert] = "Incorrect username or password"
                 end
             end
             render :action => 'new'

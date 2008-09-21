@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
 
         unless  @user.login =~/\A([^@\s]+)@((?:[-a-z0-9]+.)+[a-z]{2,})\Z/i
-            flash[:notice] = "Not a valid email address: "+@user.login
+            flash[:alert] = "Not a valid email address: "+@user.login
             redirect_to relationships_path
             return
 
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     def new_signup
 
         if self.current_user
-            flash[:notice] = "Now where did you find this link? You are currently logged on and cannot signup again"
+            flash[:alert] = "Now where did you find this link? You are currently logged on and cannot signup again"
             redirect_to show_user_path
             return
 
@@ -89,7 +89,7 @@ class UsersController < ApplicationController
         @user = User.new(params[:user])
 
         unless  @user.login =~/\A([^@\s]+)@((?:[-a-z0-9]+.)+[a-z]{2,})\Z/i
-            flash[:notice] = "Not a valid email address: "+@user.login
+            flash[:alert] = "Not a valid email address: "+@user.login
             redirect_to :action=>"new_signup", :user => params[:user]
             return
 
@@ -97,7 +97,7 @@ class UsersController < ApplicationController
 
         @u2 = User.find_by_login(@user.login)
         if  @u2
-            flash[:notice] = "You have already signed up. User the 'forgot password' link to retrieve your password"
+            flash[:alert] = "You have already signed up. User the 'forgot password' link to retrieve your password"
             redirect_to :action=>"new_signup", :user => params[:user]
             return
 
@@ -108,7 +108,7 @@ class UsersController < ApplicationController
 
 
         unless simple_captcha_valid?
-            flash[:notice] = "Wrong code. Please try again"
+            flash[:alert] = "Wrong code. Please try again"
             if self.current_user
                 # return to add relationship
                 redirect_to :action => "new" ,:user => params[:user]
@@ -379,7 +379,7 @@ class UsersController < ApplicationController
                 result = current_user.save
 
                 redirect_to show_user_path
-                flash[:notice] = result ? "Password reset successfully" : "Unable to reset password"
+                flash[:alert] = result ? "Password reset successfully" : "Unable to reset password"
 
             else
 
@@ -424,10 +424,10 @@ class UsersController < ApplicationController
 
             logger.info("in merge to post")
             if @mergeTo==nil
-                flash[:notice] = "Incorrect login or password"
+                flash[:alert] = "Incorrect login or password"
                 redirect_back_or_default('/merge')
             elsif @mergeTo == self.current_user
-                flash[:notice] = "You cannot merge to the same account you are logged in to"
+                flash[:alert] = "You cannot merge to the same account you are logged in to"
                 redirect_back_or_default('/merge')
             else
                 logger.info("in merge. Target is "+@mergeTo.name+" from is "+@user.name)
@@ -590,11 +590,11 @@ class UsersController < ApplicationController
         @user = User.find_by_login(params[:user][:login])
 
         if @user and self.current_user.connectedUsers.include?(@user)
-            flash[:notice] = "Your already have a connection to #{params[:user][:login]}"
+            flash[:alert] = "Your already have a connection to #{params[:user][:login]}"
             redirect_to relationships_path
             return
         elsif @user == self.current_user
-            flash[:notice] = "Connecting with your self is outside the scope of this application"
+            flash[:alert] = "Connecting with your self is outside the scope of this application"
             redirect_to relationships_path
             return
         elsif @user

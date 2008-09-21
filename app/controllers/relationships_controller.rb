@@ -16,7 +16,7 @@ class RelationshipsController < ApplicationController
     def create
 
         unless simple_captcha_valid?
-            flash[:notice] = "Wrong code. Please try again"
+            flash[:alert] = "Wrong code. Please try again"
             redirect_to :action=>"new",:relationship => params[:relationship] ,:login => params[:login]
             return
 
@@ -29,7 +29,7 @@ class RelationshipsController < ApplicationController
         @relationship.target = @target
         @relationship.state = "pending"
         @relationship.make_activation_code
-
+                                                             F
 
         if @relationship.save
             @activation_url  = "#{SITE}/activate_relationship/#{@relationship.activation_code}"

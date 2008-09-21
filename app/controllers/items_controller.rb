@@ -51,7 +51,7 @@ class ItemsController < ApplicationController
 
         if @item==nil
             logger.info("peeping ")
-            flash[:notice] = 'No peeping !'
+            flash[:alert] = 'No peeping !'
             reditect_to(self.current_user)
             return
         end

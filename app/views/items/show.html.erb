@@ -1,24 +1,22 @@
 <p>
 
-<h1><%=h @item.title%></h1>
+<h1><%= h @item.title %></h1>
 
 </p>
 
 
-<% if @jump%>
+<% if @jump %>
 
     <p>
         Job passed from <%= path_to_me @jump %>
     </p>
-<%end%>
+<% end %>
 
 <b>Description:</b>
-<p class="preElement"><%=word_wrap @item.description,84%></p>
+<p class="preElement"><%= word_wrap @item.description, 84 %></p>
 
 
-<p>
-    <b>State</b>: <%=@item.state%>
-</p>
+
 
 <% if @item.state=='closed' %>
     <p>
@@ -26,14 +24,38 @@
     </p>
 
 
-<%end%>
+<% elsif @jump %>
 
+    <% if @jump.app!=nil %>
+        <%= link_to 'View your application', app_path(@jump.app), :action=>"show" %>
+    <% elsif @jump.item.state=='open' %>
+        <%= link_to 'Compose an application for this job', new_app_path(@jump) %>
 
-<% if @jump and @jump.comment!=nil%>
+    <% end %>
+
+    | <%= link_to 'Compose a message to job initiator', new_reply_path(@jump.item, @jump.item.owner) %>
+    | <%= link_to 'Relay this job to one of your connections', forward_item_path(@item) %>
+    <% if @jump.app==nil %>
+        <%= link_help_with_application %>
+    <% else %>
+        <!--<%= link_help %>-->
+    <% end %>
+<% elsif @item.owner == @user%>
+    <%= link_to 'Relay this job to one of your connections', forward_item_path(@item) %>
+
+<% end %>
+
+<br/>
+
+<% if @jump and @jump.comment!=nil %>
     <b>Comment from <%= @jump.from_user.name %></b>:<br/>
-    <p class="preElement"><%=word_wrap @jump.comment,84%></p>
+    <p class="preElement"><%= word_wrap @jump.comment, 84 %></p>
 
-<%end%>
+<% end %>
+
+<% if @jump %>
+    <%= link_to "Compose a message to #{@jump.from_user.name}", new_reply_path(@jump.item, @jump.from_user) %>
+<% end %>
 
 <br/>
 
@@ -41,38 +63,23 @@
 <%= link_to 'Back', items_path %>
 <% if @user == @item.owner %>
     | <%= link_to 'Edit', edit_item_path(@item) %>
-    | <%= link_to 'Delete', destroy_item_path(@item), :confirm => 'Are you sure? If you relayed this job to any users they will not be able to see it any more.'%>
-    <%if @item.state=='open'%>
-        | <%= link_to 'Close', close_item_path(@item), :confirm => 'Are you sure? If you relayed this job to any users they will not be able to relay it or respond to it.'%>
-    <%end%>
-    <%if @item.state=='closed'%>
+    | <%= link_to 'Delete', destroy_item_path(@item), :confirm => 'Are you sure? If you relayed this job to any users they will not be able to see it any more.' %>
+    <% if @item.state=='open' %>
+        | <%= link_to 'Close', close_item_path(@item), :confirm => 'Are you sure? If you relayed this job to any users they will not be able to relay it or respond to it.' %>
+    <% end %>
+    <% if @item.state=='closed' %>
         | <%= link_to 'Re-open', open_item_path(@item) %>
-    <%end%>
-
-<%end%>
-<%if @item.state=='open'%>
-    | <%= link_to 'Relay', forward_item_path(@item) %>
-<%end%>
-
-<% if @jump %>
-
-    <% if @jump.app!=nil %>
-        | <%= link_to 'View application', app_path(@jump.app),:action=>"show" %>
-        | <%= link_to 'Reply', new_reply_path(@jump.item)%>
-    <% elsif @jump.item.state=='open' %>
-        | <%= link_to 'Apply', new_app_path(@jump)%>
-        | <%= link_to 'Reply', new_reply_path(@jump.item)%>
     <% end %>
 
-    <% if @jump.app==nil %>
-        <%=link_help_with_application%>
-    <%else%>
-        <%=link_help %>
-    <%end%>
-<%end%>
+<% end %>
+<% if @item.state=='open' %>
+
+<% end %>
 
 
-<% if @user == @item.owner and @ijumps.size>0%>
+
+
+<% if @user == @item.owner and @ijumps.size>0 %>
 
     <br/>
     <hr/>
@@ -81,19 +88,19 @@
     <table>
         <% for jump in @ijumps %>
             <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
-                <td><%= h jump.to_user.name%></td>
+                <td><%= h jump.to_user.name %></td>
                 <td><%= h jump.to_user.login %></td>
-                <td><%= link_to 'show application', jump.app%></td>
+                <td><%= link_to 'show application', jump.app %></td>
             </tr>
-        <%end%>
+        <% end %>
     </table>
 
 
-<%end%>
+<% end %>
 
 
 
-<% if @user == @item.owner and @users_replied.size>0%>
+<% if @user == @item.owner and @users_replied.size>0 %>
 
     <br/>
     <hr/>
@@ -102,10 +109,10 @@
     <table>
         <% for u in @users_replied %>
             <tr valign="top" class="<%= cycle('list-line-odd', 'list-line-even') %>">
-                <td><%= h u.name%></td>
-                <td><%= link_to 'show log', new_reply_owner_path(@item,u)%></td>
+                <td><%= h u.name %></td>
+                <td><%= link_to 'show log', new_reply_path(@item, u) %></td>
             </tr>
-        <%end%>
+        <% end %>
     </table>
 
-<%end%>
+<% end %>
