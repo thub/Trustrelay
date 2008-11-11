@@ -12,8 +12,8 @@ set :use_sudo, true
 # your SCM below:
 
 set :scm, :git
-set :repository, "git://trustrelay.com/tr"
-set :branch, "master"
+set :repository, "/home/thub/work/tr"
+#set :branch, "master"
 
 role :app, "trustrelay.com"
 role :web, "trustrelay.com"
