@@ -7,31 +7,16 @@ set :deploy_to, "/var/www/apps/#{application}"
 set :user, "thub"
 set :runner,nil
 set :use_sudo, true
+default_run_options[:pty] = true 
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 
 set :scm, :git
-set :repository, "/home/thub/work/tr"
-#set :branch, "master"
+set :repository, "ssh://thub@trustrelay.com/home/thub/work/tr"
+set :branch, "master"
 
 role :app, "trustrelay.com"
 role :web, "trustrelay.com"
 role :db,  "trustrelay.com", :primary => true
 
-
-after "deploy:update_code", :fix_script_perms
-after "deploy:setup", :fix_directory_perms
-
-
-  task :fix_script_perms do
-    run "chmod 755 #{latest_release}/script/spin"
-    run "chmod 755 #{latest_release}/script/process/reaper"
-    run "chmod 755 #{latest_release}/script/process/spawner"  
-
-  end
-
-  task :fix_directory_perms do
-    run "sudo chown -R  cvs /var/www/apps/net"
-    run "sudo chgrp -R  cvs /var/www/apps/net"
-  end

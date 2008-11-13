@@ -35,11 +35,7 @@
 
     | <%= link_to 'Compose a message to job initiator', new_reply_path(@jump.item, @jump.item.owner) %>
     | <%= link_to 'Relay this job to one of your connections', forward_item_path(@item) %>
-    <% if @jump.app==nil %>
-        <%= link_help_with_application %>
-    <% else %>
-        <!--<%= link_help %>-->
-    <% end %>
+    
 <% elsif @item.owner == @user%>
     <%= link_to 'Relay this job to one of your connections', forward_item_path(@item) %>
 
